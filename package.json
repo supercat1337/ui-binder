@@ -1,0 +1,33 @@
+{
+  "name": "@supercat1337/ui-binder",
+  "version": "1.0.0",
+  "description": "UI Binder — Foundation for Reactive Bridges between UI and Data",
+  "license": "MIT",
+  "author": "Supercat1337",
+  "type": "module",
+  "main": "index.js",
+  "homepage": "https://github.com/supercat1337/ui-binder",
+  "repository": {
+    "url": "https://github.com/supercat1337/ui-binder.git",
+    "type": "git"
+  },
+  "scripts": {
+    "build": "npm run remove_type_files && npm run build_esm && npm run build_bundle_esm && npm run build_bundle_esm_min && npm run create_types",
+    "build_bundle_esm_min": "esbuild --minify --bundle --platform=neutral --legal-comments=none ./src/index.js --outfile=./dist/ui-binder.bundle.esm.min.js",
+    "build_bundle_esm": "esbuild --bundle --platform=neutral --legal-comments=none ./src/index.js --outfile=./dist/ui-binder.bundle.esm.js",
+    "build_esm": "rollup ./src/index.js --file ./dist/ui-binder.esm.js --format es",
+    "create_types": "npx -p typescript tsc --project my.tsconfig.types.json",
+    "remove_type_files": "del /q *.d.ts *.d.ts.map && cd dist && del /s /q *.d.ts *.d.ts.map && cd ..",
+    "test": "ava",
+    "test:watch": "ava --watch",
+    "test:coverage": "c8 ava"
+  },
+  "dependencies": {
+    "@supercat1337/event-emitter": "^1.0.12"
+  },
+  "devDependencies": {
+    "ava": "^6.4.1",
+    "c8": "^10.1.3",
+    "happy-dom": "^20.3.1"
+  }
+}
