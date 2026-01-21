@@ -132,12 +132,16 @@ test('setPropertyValue: set deeply nested property', t => {
 test('setPropertyValue: set property to null', t => {
     const obj = { user: { name: 'John' } };
     setPropertyValue(obj, ['user', 'name'], null);
+
+    // @ts-expect-error
     t.is(obj.user.name, null);
 });
 
 test('setPropertyValue: set property to undefined', t => {
     const obj = { user: { name: 'John' } };
     setPropertyValue(obj, ['user', 'name'], undefined);
+
+    // @ts-expect-error
     t.is(obj.user.name, undefined);
 });
 
@@ -170,6 +174,8 @@ test('setPropertyValue: set property to array', t => {
 test('setPropertyValue: set new property on object', t => {
     const obj = { name: 'John' };
     setPropertyValue(obj, ['age'], 30);
+
+    // @ts-expect-error
     t.is(obj.age, 30);
 });
 
@@ -232,6 +238,8 @@ test('setPropertyValue: can chain multiple calls', t => {
     setPropertyValue(obj, ['user', 'profile', 'name'], 'Jane');
     setPropertyValue(obj, ['user', 'profile', 'age'], 30);
     t.is(obj.user.profile.name, 'Jane');
+
+    // @ts-expect-error
     t.is(obj.user.profile.age, 30);
 });
 
