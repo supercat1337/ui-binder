@@ -71,6 +71,14 @@ function getPropertyValue(obj, path) {
     return isSet(current) ? current[part] : current;
   }, obj);
 }
+function setPropertyValue(obj, path, value) {
+  return path.reduce((current, part, index) => {
+    if (index === path.length - 1) {
+      current[part] = value;
+    }
+    return current[part];
+  }, obj);
+}
 
 // src/utils/dom.js
 function getElementAttrs(element) {
@@ -993,5 +1001,6 @@ export {
   parseDirectives,
   pathToPropertyName,
   propertyNameToAttributeName,
-  propertyNameToPath
+  propertyNameToPath,
+  setPropertyValue
 };

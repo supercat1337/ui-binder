@@ -264,6 +264,7 @@ export class CustomReactiveBridge extends BridgeBase {
 ```javascript
 import { 
     getPropertyValue,
+    setPropertyValue,
     propertyNameToPath,
     pathToPropertyName,
     attributeNameToPropertyName,
@@ -273,6 +274,7 @@ import {
 
 // Working with property paths
 getPropertyValue(state, ['user', 'name']);
+setPropertyValue(state, ['user', 'name']);
 propertyNameToPath('user.profile.name'); // ['user', 'profile', 'name']
 pathToPropertyName(['user', 'profile']); // 'user.profile'
 

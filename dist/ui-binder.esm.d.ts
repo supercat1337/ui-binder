@@ -263,6 +263,14 @@ export function propertyNameToAttributeName(input: string[] | string, prefix?: s
  * @returns {string[]} The converted array path
  */
 export function propertyNameToPath(propertyName: string): string[];
+/**
+ * Sets a nested property value from an object using an array path.
+ * @param {Object} obj - The object to set the property value on
+ * @param {string[]} path - Array of property names representing the path
+ * @param {*} value - The value to set on the nested property
+ * @returns {*} The modified object
+ */
+export function setPropertyValue(obj: any, path: string[], value: any): any;
 declare class HandlerContext {
     /**
      * Constructor for HandlerContext.

@@ -5,6 +5,7 @@ export {
     propertyNameToAttributeName,
     pathToPropertyName,
     getPropertyValue,
+    setPropertyValue,
     propertyNameToPath,
 } from './utils/properties.js';
 

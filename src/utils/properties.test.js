@@ -6,6 +6,7 @@ import { Window } from 'happy-dom';
 import {
     getNestedProperty,
     getPropertyValue,
+    setPropertyValue,
     attributeNameToPropertyName,
     propertyNameToAttributeName,
     propertyNameToPath,
@@ -98,6 +99,140 @@ test('getPropertyValue: object with falsy values', t => {
     t.is(getPropertyValue(obj, ['count']), 0);
     t.is(getPropertyValue(obj, ['active']), false);
     t.is(getPropertyValue(obj, ['name']), '');
+});
+
+// ============================================================================
+// setPropertyValue Tests
+// ============================================================================
+
+test('setPropertyValue: set single level property', t => {
+    const obj = { name: 'John', age: 30 };
+    setPropertyValue(obj, ['name'], 'Jane');
+    t.is(obj.name, 'Jane');
+});
+
+test('setPropertyValue: set nested property', t => {
+    const obj = { user: { name: 'John', email: 'john@example.com' } };
+    setPropertyValue(obj, ['user', 'name'], 'Jane');
+    t.is(obj.user.name, 'Jane');
+});
+
+test('setPropertyValue: set deeply nested property', t => {
+    const obj = {
+        company: {
+            employees: {
+                manager: { name: 'Alice', salary: 100000 },
+            },
+        },
+    };
+    setPropertyValue(obj, ['company', 'employees', 'manager', 'name'], 'Bob');
+    t.is(obj.company.employees.manager.name, 'Bob');
+});
+
+test('setPropertyValue: set property to null', t => {
+    const obj = { user: { name: 'John' } };
+    setPropertyValue(obj, ['user', 'name'], null);
+    t.is(obj.user.name, null);
+});
+
+test('setPropertyValue: set property to undefined', t => {
+    const obj = { user: { name: 'John' } };
+    setPropertyValue(obj, ['user', 'name'], undefined);
+    t.is(obj.user.name, undefined);
+});
+
+test('setPropertyValue: set property to number', t => {
+    const obj = { count: 0 };
+    setPropertyValue(obj, ['count'], 42);
+    t.is(obj.count, 42);
+});
+
+test('setPropertyValue: set property to boolean', t => {
+    const obj = { active: false };
+    setPropertyValue(obj, ['active'], true);
+    t.is(obj.active, true);
+});
+
+test('setPropertyValue: set property to object', t => {
+    const obj = { user: {} };
+    const newUser = { name: 'Jane', age: 25 };
+    setPropertyValue(obj, ['user'], newUser);
+    t.deepEqual(obj.user, newUser);
+});
+
+test('setPropertyValue: set property to array', t => {
+    const obj = { items: [] };
+    const newItems = ['a', 'b', 'c'];
+    setPropertyValue(obj, ['items'], newItems);
+    t.deepEqual(obj.items, newItems);
+});
+
+test('setPropertyValue: set new property on object', t => {
+    const obj = { name: 'John' };
+    setPropertyValue(obj, ['age'], 30);
+    t.is(obj.age, 30);
+});
+
+test('setPropertyValue: set array element', t => {
+    const obj = { items: ['a', 'b', 'c'] };
+    setPropertyValue(obj, ['items', '1'], 'x');
+    t.is(obj.items[1], 'x');
+});
+
+test('setPropertyValue: set empty string property', t => {
+    const obj = { name: 'John' };
+    setPropertyValue(obj, ['name'], '');
+    t.is(obj.name, '');
+});
+
+test('setPropertyValue: set property to 0', t => {
+    const obj = { count: 5 };
+    setPropertyValue(obj, ['count'], 0);
+    t.is(obj.count, 0);
+});
+
+test('setPropertyValue: set property to false', t => {
+    const obj = { active: true };
+    setPropertyValue(obj, ['active'], false);
+    t.is(obj.active, false);
+});
+
+test('setPropertyValue: modifies original object', t => {
+    const obj = { user: { name: 'John' } };
+    setPropertyValue(obj, ['user', 'name'], 'Jane');
+    t.is(obj.user.name, 'Jane');
+});
+
+test('setPropertyValue: returns the value at the path', t => {
+    const obj = { user: { name: 'John' } };
+    const result = setPropertyValue(obj, ['user', 'name'], 'Jane');
+    t.is(result, 'Jane');
+});
+
+test('setPropertyValue: returns the value at single level path', t => {
+    const obj = { name: 'John' };
+    const result = setPropertyValue(obj, ['name'], 'Jane');
+    t.is(result, 'Jane');
+});
+
+test('setPropertyValue: returns the value at deeply nested path', t => {
+    const obj = {
+        company: {
+            employees: {
+                manager: { name: 'Alice' },
+            },
+        },
+    };
+    const result = setPropertyValue(obj, ['company', 'employees', 'manager', 'name'], 'Bob');
+    t.is(result, 'Bob');
+});
+
+test('setPropertyValue: can chain multiple calls', t => {
+    const obj = { user: { profile: { name: 'John' } } };
+    setPropertyValue(obj, ['user', 'profile', 'name'], 'Jane');
+    setPropertyValue(obj, ['user', 'profile', 'age'], 30);
+    t.is(obj.user.profile.name, 'Jane');
+    t.is(obj.user.profile.age, 30);
 });
 
 // ============================================================================

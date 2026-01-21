@@ -145,6 +145,22 @@ function getPropertyValue(obj, path) {
     }, obj);
 }
 
+/**
+ * Sets a nested property value from an object using an array path.
+ * @param {Object} obj - The object to set the property value on
+ * @param {string[]} path - Array of property names representing the path
+ * @param {*} value - The value to set on the nested property
+ * @returns {*} The modified object
+ */
+function setPropertyValue(obj, path, value) {
+    return path.reduce((current, part, index) => {
+        if (index === path.length - 1) {
+            current[part] = value;
+        }
+        return current[part];
+    }, obj);
+}
+
 // @ts-check
 
 /**
@@ -1012,4 +1028,4 @@ class BridgeBase {
     }
 }
 
-export { BridgeBase, ClassDirectiveValue, DIRECTIVE_PREFIXES, DirectiveParser, DirectiveValue, ParsedDirectives, attributeNameToPropertyName, getElementAttrs, getPropertyValue, isValidForTwoWayBinding, parseDirectives, pathToPropertyName, propertyNameToAttributeName, propertyNameToPath };
+export { BridgeBase, ClassDirectiveValue, DIRECTIVE_PREFIXES, DirectiveParser, DirectiveValue, ParsedDirectives, attributeNameToPropertyName, getElementAttrs, getPropertyValue, isValidForTwoWayBinding, parseDirectives, pathToPropertyName, propertyNameToAttributeName, propertyNameToPath, setPropertyValue };

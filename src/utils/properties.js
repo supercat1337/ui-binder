@@ -154,3 +154,19 @@ export function getPropertyValue(obj, path) {
         return isSet(current) ? current[part] : current;
     }, obj);
 }
+
+/**
+ * Sets a nested property value from an object using an array path.
+ * @param {Object} obj - The object to set the property value on
+ * @param {string[]} path - Array of property names representing the path
+ * @param {*} value - The value to set on the nested property
+ * @returns {*} The modified object
+ */
+export function setPropertyValue(obj, path, value) {
+    return path.reduce((current, part, index) => {
+        if (index === path.length - 1) {
+            current[part] = value;
+        }
+        return current[part];
+    }, obj);
+}
